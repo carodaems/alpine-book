@@ -3,7 +3,9 @@
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-          
+
+  
+  <!-- search for a book that is in the list  -->
 <div x-data="bookSearch()" x-init="fetchBook()">
     <h1>Library</h1>
     <h2>Search a book by its ID</h2>
@@ -25,7 +27,7 @@
     </div>
   </template>
 
-  
+  <!-- generate random book with getrandombook endpoint -->
   <div x-data="randomBook()">
     <h2>Don't know what to read?</h2>
     <button type="submit" @click="fetchRandomBook()">Click me!</button>
@@ -33,6 +35,37 @@
     <p x-text="randombook.author"></p>
   </div>
   
+  <div>
+    <h2>Add a new book to your list!</h2>
+    <div>
+      <form x-data="createNewBook()" @submit.prevent="submitBook()">
+        <div>
+          <label>Title</label>
+          <input type="text" name="title" x-model="newbook.title" required>
+        </div>
+        <div>
+          <label>Author</label>
+          <input type="text" name="author" x-model="newbook.author" required>
+        </div>
+        <div>
+          <label>Pages</label>
+          <input type="number" name="pages" x-model="newbook.page_count" required>
+        </div>
+        <div>
+          <label>Publisher</label>
+          <input type="text" name="publisher" x-model="newbook.publisher" required>
+        </div>
+        <div>
+          <label>Format</label>
+          <input type="text" name="format" x-model="newbook.format" required>
+        </div>
+        <button x-text="buttonText" :disabled="loading" x-on:click="createNewBook()">Add</button>
+      </form>
+    </div>
+  </div>
+
+
+
   <script type="text/javascript">
     function bookSearch() {
       return {
@@ -63,6 +96,51 @@
         };
     }
   </script>
+
+  <script>
+    const URL = 'https://randomizer-service-carodaems.cloud.okteto.net/books';
+
+    function createNewBook() {
+      return {
+        newbook: {
+          title: "",
+          author: "",
+          page_count: "",
+          publisher: "",
+          format: "",
+        },
+        buttonText: "Submit",
+        loading: false,
+        submitBook() {
+          fetch(URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(this.newbook),
+          })
+          .then(() => {
+            alert("Form submitted");
+          })
+          .catch(() => {
+            alert("Something went wrong");
+          })
+          .finally(() => {
+            this.newbook.title = "";
+            this.newbook.author = "";
+            this.newbook.page_count = "";
+            this.newbook.publisher = "";
+            this.newbook.format = "";
+            this.buttonText = "Submit";
+            this.loading = false;
+          });
+        },
+      };
+    }
+  </script>
+
+
 </body>
 </html>
 
