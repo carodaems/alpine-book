@@ -26,6 +26,13 @@
   </template>
 
   
+  <div x-data="randomBook()">
+    <h2>Don't know what to read?</h2>
+    <button type="submit" @click="fetchRandomBook()">Click me!</button>
+    <p x-text="randombook.title"></p>
+    <p x-text="randombook.author"></p>
+  </div>
+  
   <script type="text/javascript">
     function bookSearch() {
       return {
@@ -39,6 +46,21 @@
             });
         },
       };
+    }
+  </script>
+
+  <script>
+    function randomBook() {
+        return {
+            randombook: null,
+            fetchRandomBook() {
+            fetch(`https://randomizer-service-carodaems.cloud.okteto.net/randombook`)
+            .then((res) => res.json())
+            .then((data) => {
+                this.randombook = data;
+            });
+        },
+        };
     }
   </script>
 </body>
