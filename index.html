@@ -3,21 +3,47 @@
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-    <div 
-    x-data="{
-        book: null,
-
-        getBook() {
-            fetch('https://randomizer-service-carodaems.cloud.okteto.net/books')
-            .then((response) => response.json())
-            .then((json) => this.pokemon = json);
-        }
-        }"
-        
-    x-init="getBook()">
-
-    <p x-text="book"></p>
-      
+          
+<div x-data="bookSearch()" x-init="fetchBook()">
+    <h1>Library</h1>
+    <h2>Search a book by its ID</h2>
+  <div>
+    <input type="text" name="bookidSearch" x-model="bookidSearch">
+    <button type="submit" @click="fetchBook()">
+      Search
+    </button>
+  </div>
+  <template x-if="book">
+    <div>
+      <div>
+        <h3 x-text="book.title"></h3>
+        <p x-text="book.author"></p>
+        <p x-text="book.page_count"></p>
+        <p x-text="book.publisher"></p>
+        <p x-text="book.format"></p>
+      </div>
     </div>
+  </template>
+
+  
+  <script type="text/javascript">
+    function bookSearch() {
+      return {
+        bookidSearch: "0",
+        book: null,
+        fetchBook() {
+          fetch(`https://randomizer-service-carodaems.cloud.okteto.net/book/${this.bookidSearch}`)
+            .then((res) => res.json())
+            .then((data) => {
+              this.book = data;
+            });
+        },
+      };
+    }
+  </script>
 </body>
 </html>
+
+
+
+
