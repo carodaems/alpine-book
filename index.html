@@ -1,65 +1,88 @@
 <html>
     <head>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
+        <link href="/dist/output.css" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    </head>
 <body>
 
-  
   <!-- search for a book that is in the list  -->
-<div x-data="bookSearch()" x-init="fetchBook()">
-    <h1>Library</h1>
-    <h2>Search a book by its ID</h2>
-  <div>
-    <input type="text" name="bookidSearch" x-model="bookidSearch">
-    <button type="submit" @click="fetchBook()">
+
+  <!-- TODO: klein scherm responsive maken -->
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 h-screen p-8">
+<h1 class="text-center text-6xl font-poppins font-bold pb-4">Library<span class="text-sky-400"> Online</span></h1>
+<p class="text-center pb-12 text-gray-700 font-poppins">An online platform to digitize your personal bookshelf!</p>
+
+<div class="content-center flex md:flex-row sm:flex-col justify-center h-3/4 gap-8 sm:items-center md:items-stretch">
+
+<div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 flex-grow" x-data="bookSearch()" x-init="fetchBook()">
+    
+  <h2 class="font-poppins text-2xl text-center font-semibold mb-5">Search a <span class="text-sky-400">book</span> by its ID</h2>
+  <label class="font-poppins block mb-2">Enter an ID</label>
+
+  <div class="flex flex-wrap">
+    <div class="w-3/4"><input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="bookidSearch" x-model="bookidSearch"></div>
+    <div class="w-1/4 px-3"><button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded mb-5 w-full" type="submit" @click="fetchBook()">
       Search
-    </button>
+    </button></div>
   </div>
   <template x-if="book">
+
+<!-- TODO: TAILWIND card met google cover API     -->
     <div>
       <div>
-        <h3 x-text="book.title"></h3>
-        <p x-text="book.author"></p>
-        <p x-text="book.page_count"></p>
-        <p x-text="book.publisher"></p>
-        <p x-text="book.format"></p>
+        <h3 class="font-poppins" x-text="book.title"></h3>
+        <p class="font-poppins"  x-text="book.author"></p>
+        <p class="font-poppins"  x-text="book.page_count"></p>
+        <p class="font-poppins"  x-text="book.publisher"></p>
+        <p class="font-poppins" x-text="book.format"></p>
       </div>
     </div>
   </template>
+</div>  
 
   <!-- generate random book with getrandombook endpoint -->
-  <div x-data="randomBook()">
-    <h2>Don't know what to read?</h2>
-    <button type="submit" @click="fetchRandomBook()">Click me!</button>
-    <p x-text="randombook.title"></p>
-    <p x-text="randombook.author"></p>
+  <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 sm:flex-grow " x-data="randomBook()">
+    <h2 class="font-poppins text-2xl text-center font-semibold">Don't know what to <span class="text-sky-400">read</span>?</h2>
+    <div class="flex flex-col items-center">
+      <button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded m-4" type="submit" @click="fetchRandomBook()">Click me!</button>
+      <p class="font-poppins" x-text="randombook.title"></p>
+      <p class="font-poppins" x-text="randombook.author"></p>
+    </div>
   </div>
   
-  <div>
-    <h2>Add a new book to your list!</h2>
+
+
+  <!-- add a new book to the list -->
+  <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 sm:flex-grow">
+    <h2 class="font-poppins text-2xl text-center font-semibold mb-5">Add a new <span class="text-sky-400">book</span> to your list!</h2>
     <div>
       <form x-data="createNewBook()" @submit.prevent="submitBook()">
-        <div>
-          <label>Title</label>
-          <input type="text" name="title" x-model="newbook.title" required>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">Title</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="title" x-model="newbook.title" required>
         </div>
-        <div>
-          <label>Author</label>
-          <input type="text" name="author" x-model="newbook.author" required>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">Author</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="author" x-model="newbook.author" required>
         </div>
-        <div>
-          <label>Pages</label>
-          <input type="number" name="pages" x-model="newbook.page_count" required>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">Pages</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="pages" x-model="newbook.page_count" required>
         </div>
-        <div>
-          <label>Publisher</label>
-          <input type="text" name="publisher" x-model="newbook.publisher" required>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">Publisher</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"type="text" name="publisher" x-model="newbook.publisher" required>
         </div>
-        <div>
-          <label>Format</label>
-          <input type="text" name="format" x-model="newbook.format" required>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">Format</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="format" x-model="newbook.format" required>
         </div>
-        <button x-text="buttonText" :disabled="loading" x-on:click="createNewBook()">Add</button>
+        <button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded" x-text="buttonText" :disabled="loading" x-on:click="createNewBook()">Add</button>
       </form>
     </div>
   </div>
@@ -139,7 +162,7 @@
       };
     }
   </script>
-
+</div>
 
 </body>
 </html>
