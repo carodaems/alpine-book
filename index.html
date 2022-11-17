@@ -8,26 +8,30 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
     </head>
 <body>
 
   <!-- search for a book that is in the list  -->
 
   <!-- TODO: klein scherm responsive maken -->
-<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12 h-screen p-8">
-<h1 class="text-center text-6xl font-poppins font-bold pb-4">Library<span class="text-sky-400"> Online</span></h1>
-<p class="text-center pb-12 text-gray-700 font-poppins">An online platform to digitize your personal bookshelf!</p>
 
-<div class="content-center flex md:flex-row sm:flex-col justify-center h-3/4 gap-8 sm:items-center md:items-stretch">
+<div class="min-h-screen justify-center bg-gray-50 py-6 sm:py-12 p-8">
+<div>
+  <h1 class="text-center text-6xl font-poppins font-bold pb-4">Library<span class="text-sky-400"> Online</span></h1>
+  <p class="text-center pb-12 text-gray-700 font-poppins">An online platform to digitize your personal bookshelf!</p>
+</div>
 
-<div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 flex-grow" x-data="bookSearch()" x-init="fetchBook()">
-    
+<div class="content-center flex flex-col lg:flex-row justify-center lg:h-3/4 gap-8">
+
+<div class="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 lg:max-w-lg ring-gray-900/5 rounded-lg sm:px-10 flex-grow" x-data="bookSearch()" x-init="fetchBook()">
   <h2 class="font-poppins text-2xl text-center font-semibold mb-5">Search a <span class="text-sky-400">book</span> by its ID</h2>
   <label class="font-poppins block mb-2">Enter an ID</label>
 
   <div class="flex flex-wrap">
-    <div class="w-3/4"><input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="bookidSearch" x-model="bookidSearch"></div>
-    <div class="w-1/4 px-3"><button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded mb-5 w-full" type="submit" @click="fetchBook()">
+    <div class="lg:w-3/4"><input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="bookidSearch" x-model="bookidSearch"></div>
+    <div class="lg:w-1/4 px-3"><button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded mb-5 w-full" type="submit" @click="fetchBook()">
       Search
     </button></div>
   </div>
@@ -47,7 +51,7 @@
 </div>  
 
   <!-- generate random book with getrandombook endpoint -->
-  <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 sm:flex-grow " x-data="randomBook()">
+  <div class="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 lg:max-w-lg rounded-lg sm:px-10 flex-grow " x-data="randomBook()">
     <h2 class="font-poppins text-2xl text-center font-semibold">Don't know what to <span class="text-sky-400">read</span>?</h2>
     <div class="flex flex-col items-center">
       <button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded m-4" type="submit" @click="fetchRandomBook()">Click me!</button>
@@ -59,7 +63,7 @@
 
 
   <!-- add a new book to the list -->
-  <div class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:max-w-lg sm:rounded-lg sm:px-10 sm:flex-grow">
+  <div class="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 lg:max-w-lg rounded-lg sm:px-10 flex-grow">
     <h2 class="font-poppins text-2xl text-center font-semibold mb-5">Add a new <span class="text-sky-400">book</span> to your list!</h2>
     <div>
       <form x-data="createNewBook()" @submit.prevent="submitBook()">
@@ -87,7 +91,8 @@
       </form>
     </div>
   </div>
-
+</div>
+</div>
 
 
   <script type="text/javascript">
@@ -163,7 +168,6 @@
       };
     }
   </script>
-</div>
 
 </body>
 </html>
