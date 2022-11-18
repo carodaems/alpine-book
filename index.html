@@ -9,13 +9,14 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script>
+          window.addEventListener("load", fetchCover(), false);
+        </script>
 
     </head>
 <body>
 
-  <!-- search for a book that is in the list  -->
-
-  <!-- TODO: klein scherm responsive maken -->
+<!-- search for a book that is in the list  -->
 
 <div class="min-h-screen justify-center bg-gray-50 py-6 sm:py-12 p-8">
 <div>
@@ -30,22 +31,39 @@
   <label class="font-poppins block mb-2">Enter an ID</label>
 
   <div class="flex flex-wrap">
-    <div class="lg:w-3/4"><input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="bookidSearch" x-model="bookidSearch"></div>
-    <div class="lg:w-1/4 px-3"><button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded mb-5 w-full" type="submit" @click="fetchBook()">
+    <div class="w-2/3 lg:w-3/4"><input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="bookidSearch" x-model="bookidSearch"></div>
+    <div class="w-1/3  lg:w-1/4 px-3"><button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded mb-5 w-full" type="submit" @click="fetchBook(), fetchCover()">
       Search
     </button></div>
   </div>
   <template x-if="book">
 
-<!-- TODO: TAILWIND card met google cover API     -->
-    <div>
-      <div>
-        <h3 class="font-poppins" x-text="book.title"></h3>
-        <p class="font-poppins"  x-text="book.author"></p>
-        <p class="font-poppins"  x-text="book.page_count"></p>
-        <p class="font-poppins"  x-text="book.publisher"></p>
-        <p class="font-poppins" x-text="book.format"></p>
+    <div> 
+      <div class="flex justify-center pt-14">
+        <div class="flex flex-col md:flex-row rounded-lg bg-white shadow-lg">
+          <img class=" w-full h-96 md:h-auto object-cover rounded-t-lg md:rounded-none md:rounded-l-lg" src="http://books.google.com/books/content?id=zfhaEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api" id="searchcover"/>
+          <div class="p-8 flex flex-col justify-start">
+            <h5 class="text-gray-900 text-xl font-semibold mb-2 font-poppins" x-text="book.title"></h5>
+            <div class="flex flex-wrap">
+              <span
+                x-text="book.author" class="px-4 py-2 my-2 mr-1 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+              </span>
+              <span
+                x-text="book.page_count" class="px-4 py-2 my-2 mr-1 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                Text
+              </span>
+              <span
+                x-text="book.publisher" class="px-4 py-2 my-2 mr-1 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                Text
+              </span>
+              <span
+                x-text="book.format" class="px-4 py-2 my-2 mr-1 rounded-full text-gray-500 bg-gray-200 font-semibold text-sm flex align-center w-max cursor-pointer active:bg-gray-300 transition duration-300 ease">
+                Text
+              </span>
+          </div>
+        </div>
       </div>
+      
     </div>
   </template>
 </div>  
@@ -55,7 +73,8 @@
     <h2 class="font-poppins text-2xl text-center font-semibold">Don't know what to <span class="text-sky-400">read</span>?</h2>
     <div class="flex flex-col items-center">
       <button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded m-4" type="submit" @click="fetchRandomBook()">Click me!</button>
-      <p class="font-poppins" x-text="randombook.title"></p>
+      <p class="font-poppins font-semibold">You got:</p>
+      <p class="font-poppins text-2xl pt-5" x-text="randombook.title"></p>
       <p class="font-poppins" x-text="randombook.author"></p>
     </div>
   </div>
@@ -94,7 +113,6 @@
 </div>
 </div>
 
-
   <script type="text/javascript">
     function bookSearch() {
       return {
@@ -105,10 +123,26 @@
             .then((res) => res.json())
             .then((data) => {
               this.book = data;
-            });
+              window.ISBN = this.book.ISBN;
+            }); 
         },
       };
     }
+  </script>
+
+  <script>
+    function fetchCover() {
+      fetch(`https://randomizer-service-carodaems.cloud.okteto.net/${window.ISBN}`)
+        .then((res) => res.json())
+        .then((data) => {
+          cover = data;
+
+          const image = document.getElementById("searchcover");
+          image.setAttribute("src", `${cover}`);
+
+          console.log(cover);
+        });
+    } 
   </script>
 
   <script>
