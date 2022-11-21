@@ -106,6 +106,10 @@
           <label class="font-poppins block mb-2">Format</label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="format" x-model="newbook.format" required>
         </div>
+        <div class="mb-4">
+          <label class="font-poppins block mb-2">ISBN</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-5" type="text" name="isbn" x-model="newbook.isbn" required>
+        </div>
         <button class="bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded" x-text="buttonText" :disabled="loading" x-on:click="createNewBook()">Add</button>
       </form>
     </div>
@@ -171,6 +175,7 @@
           page_count: "",
           publisher: "",
           format: "",
+          isbn: "",
         },
         buttonText: "Submit",
         loading: false,
@@ -195,6 +200,7 @@
             this.newbook.page_count = "";
             this.newbook.publisher = "";
             this.newbook.format = "";
+            this.newbook.isbn = "";
             this.buttonText = "Submit";
             this.loading = false;
           });
