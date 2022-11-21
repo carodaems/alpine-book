@@ -172,10 +172,10 @@
         newbook: {
           title: "",
           author: "",
-          page_count: "",
+          page_count: null,
           publisher: "",
           format: "",
-          isbn: "",
+          ISBN: "",
         },
         buttonText: "Submit",
         loading: false,
@@ -197,13 +197,14 @@
           .finally(() => {
             this.newbook.title = "";
             this.newbook.author = "";
-            this.newbook.page_count = "";
+            this.newbook.page_count = null;
             this.newbook.publisher = "";
             this.newbook.format = "";
-            this.newbook.isbn = "";
+            this.newbook.ISBN = "";
             this.buttonText = "Submit";
             this.loading = false;
           });
+          console.log(this.newbook)
         },
       };
     }
